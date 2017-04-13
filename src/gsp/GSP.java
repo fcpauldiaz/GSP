@@ -43,6 +43,10 @@ public class GSP {
 
         int errorsCount = parser.getNumberOfSyntaxErrors();
         System.out.println(errorsCount);
+        if (errorsCount == 0) {
+            ParserGSP gsp = new ParserGSP();
+            gsp.visit(tree);
+        }
     }
     
 }
