@@ -6,6 +6,8 @@
 
 package gsp;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -15,11 +17,42 @@ import java.util.Objects;
 public class Predicate {
     
     private String identifier;
-    private int cantParams;
+    private ArrayList params;
+    private ArrayList evaluated;
 
-    public Predicate(String identifier, int cantParams) {
+    public Predicate(String identifier) {
+        this.params = new ArrayList();
+        this.evaluated = new ArrayList();
         this.identifier = identifier;
-        this.cantParams = cantParams;
+        if (identifier.contains("(")) {
+            if (identifier.contains("^")) {
+                String[] ids = identifier.split("\\^");
+                this.identifier = identifier;
+                for (int i = 0; i < ids.length;i++) {
+                    String newId = ids[i];
+                    String id = newId.substring(newId.indexOf("(")+1, newId.indexOf(")"));
+                    this.params.addAll(Arrays.asList(id.split(",")));
+                }
+            } else {
+                this.identifier = identifier.substring(0, identifier.indexOf("("));
+                String id = identifier.substring(identifier.indexOf("(")+1, identifier.indexOf(")"));
+                this.params.addAll(Arrays.asList(id.split(",")));
+            }
+        }
+           
+        
+    }
+    
+    public boolean valid(int j) {
+        return !this.evaluated.contains(j);
+    }
+    
+    public void addEvalIndex(int j) {
+        this.evaluated.add(j);
+    }
+    
+    public void clearEval() {
+        this.evaluated.clear();
     }
 
     public String getIdentifier() {
@@ -31,17 +64,14 @@ public class Predicate {
     }
 
     public int getCantParams() {
-        return cantParams;
-    }
-
-    public void setCantParams(int cantParams) {
-        this.cantParams = cantParams;
+        return params.size();
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 89 * hash + Objects.hashCode(this.identifier);
+        int hash = 5;
+        hash = 13 * hash + Objects.hashCode(this.identifier);
+        hash = 13 * hash + Objects.hashCode(this.params);
         return hash;
     }
 
@@ -57,15 +87,32 @@ public class Predicate {
         if (!Objects.equals(this.identifier, other.identifier)) {
             return false;
         }
+        if (!Objects.equals(this.params, other.params)) {
+            return false;
+        }
         return true;
     }
-    
-    
+
+    public void setParams(ArrayList params) {
+        this.params = params;
+    }
+
+    public ArrayList<String> getParams() {
+        return params;
+    }
+
+   
+
+ 
+
 
     @Override
     public String toString() {
-        return "Predicates{" + "identifier=" + identifier + ", cantParams=" + cantParams + '}';
+        return "Predicate{" + "identifier=" + identifier + ", params=" + params +'}';
     }
+    
+    
+    
     
     
 

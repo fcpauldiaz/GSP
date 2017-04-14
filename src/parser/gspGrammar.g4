@@ -55,15 +55,15 @@ singular_action:
 ;
 	
 precond:
-    'Precond:' conjunction+
+    'Precond:' conjunction
 ;
 
-conjunction: (negation? action_name '('action_params*')') ('^')?;
+conjunction: ((negation? action_name '('action_params*')') ('^')?)+;
 
 negation: '!';
 
 effects:
-    'Effects:' conjunction+
+    'Effects:' conjunction
 ;
 
 initial_state:
