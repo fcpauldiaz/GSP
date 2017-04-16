@@ -47,9 +47,17 @@ public class Action {
     
     public Action cloneCustom() {
         Action cloned = new Action(this.getIdentifier());
-        cloned.setParams(this.getParams());
-        cloned.setPrecond(this.getPrecond());
-        cloned.setEffects(this.getEffects());
+        cloned.setParams((ArrayList)this.getParams().clone());
+        ArrayList newPred = new ArrayList();
+        for (Predicate preconditions: this.getPrecond()) {
+            newPred.add(preconditions.cloneCustom());
+        }
+        ArrayList newEff = new ArrayList();
+        for (Predicate effc: this.getEffects()) {
+            newEff.add(effc.cloneCustom());
+        }
+        cloned.setPrecond(newPred);
+        cloned.setEffects(newEff);
         cloned.setNewIdentifier(this.getNewIdentifier());
         return cloned;
     }
@@ -110,16 +118,16 @@ public class Action {
     public void setNewIdentifier(String newIdentifier) {
         this.newIdentifier = newIdentifier;
     }
+
+    @Override
+    public String toString() {
+        return "Action{" + "identifier=" + identifier + ", params=" + params + '}';
+    }
     
     
     
 
-    @Override
-    public String toString() {
-        return "Actions{" + "identifier=" + identifier + "\n"+
-               "precond=" + precond + "\n" +
-               "effects=" + effects + '}';
-    }
+   
     
     
     

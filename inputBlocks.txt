@@ -4,8 +4,8 @@ PREDICATES
   - Hold(A)
   - Clear(A)
   - AE()
-INITIAL: On(B, A) ^ OnTable(C) ^OnTable(D) ^ AE()
-GOAL:  On(B, D) ^ On(C, A)  ^ AE()
+INITIAL: On(B, A) ^ OnTable(C) ^ AE() ^ OnTable(A) ^ Clear(B) ^ Clear(C)
+GOAL:  On(B, C) ^ On(A, B)  ^ AE() ^ OnTable(C) ^ Clear(A)
 
 ACTIONS
   - Stack(A, B):

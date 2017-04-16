@@ -43,6 +43,12 @@ public class Predicate {
         
     }
     
+    public Predicate cloneCustom(){
+        Predicate p = new Predicate(this.getIdentifier());
+        p.setParams((ArrayList)this.getParams().clone());
+        return p;
+    }
+    
     public boolean valid(int j) {
         return !this.evaluated.contains(j);
     }
